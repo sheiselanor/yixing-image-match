@@ -1,0 +1,31 @@
+[Unit]
+Description=Yixing Visual Search API
+After=network.target
+
+[Service]
+# Run as a low-privilege user
+User=www-data
+
+# Where your app code lives
+WorkingDirectory=/var/www/html/YXPM/visual-search
+
+# Load environment variables
+EnvironmentFile=/etc/env
+
+# Start the FastAPI server using venv
+ExecStart=/var/www/html/YXPM/visual-search/.venv/bin/uvicorn app:app --host 0.0.0.0 --port 8080
+
+# Restart rules (VERY IMPORTANT)
+Restart=always
+RestartSec=3
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Hardening (optional but good)
+KillSignal=SIGINT
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
